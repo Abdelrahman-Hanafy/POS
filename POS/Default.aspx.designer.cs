@@ -24,12 +24,21 @@ namespace POS
         protected global::System.Web.UI.WebControls.DropDownList Halls;
 
         /// <summary>
-        /// Panel1 control.
+        /// tick control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Panel1;
+        protected global::System.Web.UI.WebControls.Label tick;
+
+        /// <summary>
+        /// cav control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl cav;
     }
 }

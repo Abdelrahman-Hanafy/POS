@@ -15,7 +15,7 @@
         </div>
         <div class="col-md-4">
                 
-            <asp:ImageMap ID="selectedHall" runat="server"></asp:ImageMap>
+            <asp:ImageMap ID="selectedHall" runat="server" OnClick="selectedHall_Click"></asp:ImageMap>
             <canvas id="cav" width="400" height="400" runat="server"> </canvas>
         </div>
 

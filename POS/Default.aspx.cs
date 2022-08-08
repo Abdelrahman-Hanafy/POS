@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -21,11 +22,11 @@ namespace POS
 
             if (IsPostBack)
             {
+
                 hallTable = (DataTable)Session["hallTable"];
             }
             else
             {
-                Panel1.Visible = false;
                 updateHalls();
             }
             
@@ -37,19 +38,27 @@ namespace POS
         {
             string id = Halls.SelectedValue;
             //Show(id);
-            if(id != "-1")
+            List<int> ls = new List<int>(), ts = new List<int>(), ws = new List<int>(), hs = new List<int>(); 
+            foreach (DataRow row in db.fetchBlocks(id).Rows)
             {
-                Panel1.Visible = true;
-                Panel1.Width = 300;
-                Panel1.Height = 300;
-                Panel1.BorderColor = Color.Red;
-                
+
+                int l = int.Parse(row["Left"].ToString()),
+                     t = int.Parse(row["Top"].ToString()),
+                     w = int.Parse(row["Width"].ToString()),
+                     h = int.Parse(row["Height"].ToString());
+
+                ls.Add(l);
+                ts.Add(t);
+                ws.Add(w);
+                hs.Add(h);
             }
-            else
-            {
-                Panel1.Visible = false;
-            }
-            
+            string serializedls = (new JavaScriptSerializer()).Serialize(ls);
+            string serializedts = (new JavaScriptSerializer()).Serialize(ts);
+            string serializedws = (new JavaScriptSerializer()).Serialize(ws);
+            string serializedhs = (new JavaScriptSerializer()).Serialize(hs);
+
+            ScriptManager.RegisterStartupScript(Page, GetType(), "Javascript", "javascript:init(" + serializedls + ","+ serializedts + "," + serializedws + "," + serializedhs + "); ", true);
+
         }
 
 
