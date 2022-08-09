@@ -15,6 +15,9 @@ namespace POS
     {
         DataBase db;
         DataTable hallTable;
+        DataTable evntTable;
+
+        int defaultPrice = 50;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -24,6 +27,7 @@ namespace POS
             {
 
                 hallTable = (DataTable)Session["hallTable"];
+                evntTable = (DataTable)Session["evntTable"];
             }
             else
             {
@@ -36,11 +40,26 @@ namespace POS
 
         protected void Halls_SelectedIndexChanged(object sender, EventArgs e)
         {
+            
             string id = Halls.SelectedValue;
-            //Show(id);
-            List<int> ls = new List<int>(), ts = new List<int>(), ws = new List<int>(), hs = new List<int>(); 
-            foreach (DataRow row in db.fetchBlocks(id).Rows)
+            DataRow r = evntTable.Select($"ID = {id}")[0];
+            string sh = hallTable.Select($"ID = {r["HallID"]}")[0]["ID"].ToString();
+
+            DataTable blks = db.fetchPrices(id);
+
+            List<int> ls = new List<int>(), ts = new List<int>(), ws = new List<int>(), hs = new List<int>(), ps = new List<int>(); 
+            foreach (DataRow row in db.fetchBlocks(sh).Rows)
             {
+                try
+                {
+                    DataRow blk = blks.Select($"BlockId = {row["ID"]}")[0];
+                    ps.Add(int.Parse(blk["Price"].ToString()));
+                }
+                catch (Exception)
+                {
+                    ps.Add(defaultPrice);
+                }
+                
 
                 int l = int.Parse(row["Left"].ToString()),
                      t = int.Parse(row["Top"].ToString()),
@@ -56,8 +75,9 @@ namespace POS
             string serializedts = (new JavaScriptSerializer()).Serialize(ts);
             string serializedws = (new JavaScriptSerializer()).Serialize(ws);
             string serializedhs = (new JavaScriptSerializer()).Serialize(hs);
+            string serializedps = (new JavaScriptSerializer()).Serialize(ps);
 
-            ScriptManager.RegisterStartupScript(Page, GetType(), "Javascript", "javascript:init(" + serializedls + ","+ serializedts + "," + serializedws + "," + serializedhs + "); ", true);
+            ScriptManager.RegisterStartupScript(Page, GetType(), "Javascript", "javascript:init(" + serializedls + ","+ serializedts + "," + serializedws + "," + serializedhs + "," + serializedps+ "); ", true);
 
         }
 
@@ -65,9 +85,14 @@ namespace POS
 
         private void updateHalls()
         {
+
             hallTable = db.fetchHall();
             Session["hallTable"] = hallTable;
-            Halls.DataSource = hallTable;
+
+            evntTable = db.fetchEvents();
+            Session["evntTable"] = evntTable;
+
+            Halls.DataSource = evntTable;
             Halls.DataTextField = "Name";
             Halls.DataValueField = "ID";
             Halls.DataBind();

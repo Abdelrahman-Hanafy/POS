@@ -1,13 +1,14 @@
 
 class Grid {
 
-	constructor(X,Y,row_count, column_count, cell_size) {
+	constructor(X,Y,row_count, column_count, cell_size,P) {
 
 		this.row_count = row_count;
 		this.column_count = column_count;
 		this.cell_size = cell_size;
 		this.x = X;
 		this.y = Y;
+		this.price = P;
 		this.cells = [];
 
 		for(var x=0; x<this.row_count; x++) {

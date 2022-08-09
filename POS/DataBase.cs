@@ -40,6 +40,12 @@ namespace POS
             return fillTable(query);
         }
 
+        public DataTable fetchPrices(string ev)
+        {
+            string query = $"exec fetchPrices {ev} ";
+            return fillTable(query);
+        }
+
         public DataTable fetchBlocks(string hall)
         {
             string query = $"exec fetchBlocks {hall}";

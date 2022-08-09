@@ -59,13 +59,22 @@ namespace POS
             string h = halls.SelectedValue,
                 n= name.Text, d = date.SelectedDate.ToString("MM/dd/yyyy"), t =time.Text, r=duration.Text ;
 
-            Show($"You reserved {h} for {n} ON {d} at {t} for {r} hours");
-            db.addEvent(h,n,d,t,r);
+            try
+            {
+                db.addEvent(h, n, d, t, r);
+                Show($"You reserved {h} for {n} ON {d} at {t} for {r} hours");
 
-            name.Text = "";
-            time.Text = "";
-            duration.Text = "";
-            date.SelectedDates.Clear();
+
+                name.Text = "";
+                time.Text = "";
+                duration.Text = "";
+                date.SelectedDates.Clear();
+            }
+            catch (Exception)
+            {
+                Show("Conseder changing the Hall or the Time as It is not free in that day");
+            }
+            
 
         }
 

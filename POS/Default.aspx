@@ -16,7 +16,7 @@
 
             <asp:DropDownList ID="Halls" runat="server" AutoPostBack="True" OnSelectedIndexChanged="Halls_SelectedIndexChanged"></asp:DropDownList>
             
-            <asp:Label ID="tick" runat="server" Text="0 Tickts to book"></asp:Label>
+            <asp:Label ID="tick" runat="server" Text="Choose Event first"></asp:Label>
             <canvas id="cav" width="800" height="800" runat="server"> </canvas>
             
         </div>
