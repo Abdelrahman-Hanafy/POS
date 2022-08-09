@@ -7,25 +7,28 @@
     <script type="text/javascript" src="Scripts\demo.js"></script>
 
     
-    <h2>List Draw Hall</h2>
+    <h2>New Event</h2>
     <div class="row">
         <div class="col-md-4">
-            <h2>Hall Design</h2>
-            <asp:DropDownList ID="halls" runat="server" AutoPostBack="true" OnSelectedIndexChanged="halls_SelectedIndexChanged"></asp:DropDownList>          
+            <h3>Event Details</h3>
+            <asp:Label ID="Label1" runat="server" Text="Choose ur Hall"></asp:Label><br>
+            <asp:DropDownList ID="halls" runat="server" AutoPostBack="true" OnSelectedIndexChanged="halls_SelectedIndexChanged"></asp:DropDownList> <br>
+
+            <asp:TextBox ID="name" placeholder="Name of the Event" runat="server"></asp:TextBox><br>
+            <asp:Calendar ID="date" runat="server"></asp:Calendar><br>
+            <asp:TextBox ID="time" placeholder="Time Event Satrt 24 hour system" runat="server"></asp:TextBox><br>
+            <asp:TextBox ID="duration" placeholder="Duration of Event in Hours" runat="server"></asp:TextBox><br>
+
+            <asp:Button ID="add" runat="server" Text="Add Event" OnClick="add_Click" />
+
         </div>
         <div class="col-md-4">
-                
-            <asp:ImageMap ID="selectedHall" runat="server" OnClick="selectedHall_Click"></asp:ImageMap>
+
+            <asp:ImageMap ID="selectedHall" runat="server" ></asp:ImageMap>
         </div>
 
         
     </div>
   
-    <div class="row">
-        <div class="col-md-4">
-            <img src="./" ID="Image1" runat="server" />        
-        </div>
-        
-    </div>
-
+    
 </asp:Content>

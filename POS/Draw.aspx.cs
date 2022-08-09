@@ -16,8 +16,6 @@ namespace POS
     public partial class About : Page
     {
         DataBase db;
-        Bitmap bmp;
-        Image i;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -32,10 +30,6 @@ namespace POS
                 halls.Items.Insert(0, new ListItem("<-- select -->","-1"));
 
             }
-            if (IsPostBack)
-            {
-                i = (Image)Session["hall"];
-            }
 
         }
 
@@ -49,68 +43,36 @@ namespace POS
 
             try
             {
-                i = Image.FromFile(@"E:\Work\Bibliotheca\FormProjects\POS\POS\Image\" + halls.SelectedItem.Text + ".jpg");
-                Session["hall"] = i;
+                selectedHall.ImageUrl = @"Image\" + halls.SelectedItem.Text + ".jpg";
             }
             catch (Exception)
             {
                 Show("No Digram for this iamge");
                 return;
             }
-            
-
-            selectedHall.ImageUrl =@"Image\"+halls.SelectedItem.Text + ".jpg";
-            selectedHall.HotSpots.Clear();
-            foreach (DataRow row in db.fetchBlocks(halls.SelectedValue).Rows)
-            {
-
-                RectangleHotSpot ht = new RectangleHotSpot();
-                ht.Bottom = int.Parse(row["Bottom"].ToString());
-                ht.Left = int.Parse(row["Left"].ToString());
-                ht.Right = int.Parse(row["Right"].ToString());
-                ht.Top = int.Parse(row["Top"].ToString());
-
-                ht.HotSpotMode = HotSpotMode.PostBack;
-                ht.PostBackValue = row["ID"].ToString();
-
-                selectedHall.HotSpots.Add(ht);
-            }
-
-            
-
 
         }
 
-        
-        protected void selectedHall_Click(object sender, ImageMapEventArgs e)
+
+        protected void add_Click(object sender, EventArgs e)
         {
-            string id = e.PostBackValue;
-            bmp = new Bitmap(i);
+            string h = halls.SelectedValue,
+                n= name.Text, d = date.SelectedDate.ToString("MM/dd/yyyy"), t =time.Text, r=duration.Text ;
 
-            foreach (DataRow row in db.fetchBlock(id).Rows)
-            {
-                int l = int.Parse(row["Left"].ToString()),
-                    t = int.Parse(row["Top"].ToString()),
-                    w = int.Parse(row["Right"].ToString()) - l,
-                    h = int.Parse(row["Bottom"].ToString()) - t;
+            Show($"You reserved {h} for {n} ON {d} at {t} for {r} hours");
+            db.addEvent(h,n,d,t,r);
 
+            name.Text = "";
+            time.Text = "";
+            duration.Text = "";
+            date.SelectedDates.Clear();
 
-                using (Graphics gg = Graphics.FromImage(bmp))
-                {
-                    gg.DrawRectangle(new Pen(Color.Red), l,t, w, h);
-                }
-            }
-            
-
-            MemoryStream ms = new MemoryStream();
-            bmp.Save(ms, ImageFormat.Gif);
-            var base64Data = Convert.ToBase64String(ms.ToArray());
-            Image1.Src = "data:image/gif;base64," + base64Data;
         }
 
         public void Show(string message)
         {
             Response.Write("<script>alert('" + message + "');</script>");
         }
+
     }
 }

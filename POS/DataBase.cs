@@ -64,6 +64,12 @@ namespace POS
             exec(query);
         }
 
+        public void addEvent(string h, string n, string d, string t, string r)
+        {
+            string query = $"exec addEvent {h},'{n}','{d}','{t}',{r}";
+            exec(query);
+        }
+
         private void exec(string query)
         {
             SqlCommand command = new SqlCommand(query, conn);
