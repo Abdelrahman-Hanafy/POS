@@ -11,7 +11,7 @@ namespace POS
 {
 
 
-    public partial class About
+    public partial class Events
     {
 
         /// <summary>
@@ -24,21 +24,39 @@ namespace POS
         protected global::System.Web.UI.WebControls.DropDownList halls;
 
         /// <summary>
-        /// selectedHall control.
+        /// blocks control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageMap selectedHall;
+        protected global::System.Web.UI.WebControls.DropDownList blocks;
 
         /// <summary>
-        /// Image1 control.
+        /// ticketPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage Image1;
+        protected global::System.Web.UI.WebControls.TextBox ticketPrice;
+
+        /// <summary>
+        /// asg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button asg;
+
+        /// <summary>
+        /// hall control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlImage hall;
     }
 }

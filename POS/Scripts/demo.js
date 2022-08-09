@@ -44,8 +44,11 @@ function init(x,y,w,h) {
 function animate() {
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+    ctx.strokeStyle = "Red";
     tics = 0;
     for (i = 0; i < grids.length; i++) {
+
+        ctx.strokeRect(grids[i].x, grids[i].y, grids[i].row_count * size, grids[i].column_count * size);
         tics  += grids[i].update(mouse, ctx);
     }
     document.getElementById('MainContent_tick').innerHTML = 'You have ' + tics + ' to book';

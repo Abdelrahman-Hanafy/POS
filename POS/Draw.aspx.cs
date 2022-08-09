@@ -18,8 +18,6 @@ namespace POS
         DataBase db;
         Bitmap bmp;
         Image i;
-        //Graphics g;
-        //Pen curser;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -33,8 +31,6 @@ namespace POS
 
                 halls.Items.Insert(0, new ListItem("<-- select -->","-1"));
 
-                
-                //selectedHall.Visible = false;
             }
             if (IsPostBack)
             {
@@ -50,8 +46,6 @@ namespace POS
                 selectedHall.ImageUrl = @"";
                 return;
             }
-
-            ScriptManager.RegisterStartupScript(Page, GetType(), "Javascript", "javascript:draw(); ", true);
 
             try
             {

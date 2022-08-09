@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-4">
 
-            <h2>Choose Hall</h2>
+            <h2>Choose Event</h2>
 
             <asp:DropDownList ID="Halls" runat="server" AutoPostBack="True" OnSelectedIndexChanged="Halls_SelectedIndexChanged"></asp:DropDownList>
             

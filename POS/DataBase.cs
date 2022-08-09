@@ -52,6 +52,24 @@ namespace POS
             return fillTable(query);
         }
 
+        public DataTable fetchEvents()
+        {
+            string query = $"exec fetchEvents ";
+            return fillTable(query);
+        }
+
+        public void addPrice(int p, string e, string b)
+        {
+            string query = $"exec addPrice {p},{b},{e}";
+            exec(query);
+        }
+
+        private void exec(string query)
+        {
+            SqlCommand command = new SqlCommand(query, conn);
+            command.ExecuteNonQuery();
+        }
+
         private DataTable fillTable(string query)
         {
             DataTable dt = new DataTable();
