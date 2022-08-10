@@ -46,6 +46,12 @@ namespace POS
             return fillTable(query);
         }
 
+        public DataTable fetchSeats(string ev)
+        {
+            string query = $"exec fetchSeats {ev} ";
+            return fillTable(query);
+        }
+
         public DataTable fetchBlocks(string hall)
         {
             string query = $"exec fetchBlocks {hall}";
@@ -76,10 +82,16 @@ namespace POS
             exec(query);
         }
 
-        public void addReservation(string n, string m, string c, string ev)
+        public void addTicket(string r, string b, string x, string y)
+        {
+            string query = $"exec addTicket {r},{b},{x},{y}";
+            exec(query);
+        } 
+
+        public DataTable addReservation(string n, string m, string c, string ev)
         {
             string query = $"exec addReservation '{n}','{m}',{c},{ev}";
-            exec(query);
+            return fillTable(query);
         }
 
         private void exec(string query)

@@ -21,17 +21,22 @@ canvas.addEventListener("click", (e) => mouse.isClicked = true, false);
 /// MOUSE INPUT SECTION
 
 
-function init(x,y,w,h,p) {
+function init(s,d,x,y,w,h,p) {
 
-    var xs = String(x).split(",");
-    var ys = String(y).split(",");
-    var ws = String(w).split(",");
-    var hs = String(h).split(",");
-    var ps = String(p).split(",");
+    //var ss = String(s).split(",");
+    //var xs = String(x).split(",");
+    //var ys = String(y).split(",");
+    //var ws = String(w).split(",");
+    //var hs = String(h).split(",");
+    //var ps = String(p).split(",");
+    //var ids = String(d).split(",");
 
-    for (i = 0; i < xs.length; i++) {
+    for (i = 0; i < x.length; i++) {
 
-        grid = new Grid(xs[i], ys[i], ws[i], hs[i], size,ps[i]);
+        var ss = String(s[i]).split(";");
+        ss.splice(-1)
+
+        grid = new Grid(d[i],ss,x[i], y[i], w[i], h[i], size,p[i]);
         grids[i] = grid;
        
     }
@@ -79,12 +84,13 @@ function onReserve() {
             var rs = [];
             var s = "";
             for (i = 0; i < grids.length; i++) {
-                rs = rs.concat( grids[i].toReserve());
+                var seats = grids[i].toReserve();
+                rs = rs.concat(seats);
 
             }
 
             for (i = 0; i < rs.length; i++) {
-                s += String(rs[i].w) + "," + String(rs[i].h) + "; "
+                s += String(rs[i].blk) + "," + String(rs[i].w) + "," + String(rs[i].h) + ";"
             }
             
 
@@ -93,7 +99,7 @@ function onReserve() {
                     type: 'POST',
                     url: 'Reservation.aspx/Reserve',
                     async: false,
-                    data: "{'n':'" + name + "','m':'" + mail + "','c':'" + sum + "'}",
+                data: "{'n':'" + name + "','m':'" + mail + "','cells':'" + s + "','c':'" + sum + "'}",
                 contentType: 'application/json; charset =utf-8',
                 success: function (data) { alert(name + " Reserved " + tics+" Seats For "+sum+" $ at " + s); },
                     error: function (result) {alert("Error Occured, Try Again");}
@@ -115,7 +121,6 @@ function onReserve() {
     
     
 }
-    
 
 function displayCellIndex(x, y) {
     alert(x + " , " + y);

@@ -1,8 +1,9 @@
 
 class Grid {
 
-	constructor(X,Y,row_count, column_count, cell_size,P) {
+	constructor(d,b,X,Y,row_count, column_count, cell_size,P) {
 
+		this.id = d;
 		this.row_count = row_count;
 		this.column_count = column_count;
 		this.cell_size = cell_size;
@@ -10,11 +11,14 @@ class Grid {
 		this.y = Y;
 		this.price = P;
 		this.cells = [];
+		this.booked = b;
 		
 		for(var x=0; x<this.row_count; x++) {
 			var row = [];
 			for (var y = 0; y < this.column_count; y++) {
-				row.push(new Cell(this.x,this.y, x, y, cell_size))
+				var c = new Cell(this.id, this.x, this.y, x, y, cell_size);
+				if (this.booked.includes(x+","+y)) c.book();
+				row.push(c)
 			}
 			this.cells.push(row);
 		}
@@ -22,6 +26,12 @@ class Grid {
 
 	update(mouse, ctx) {
 		var count = 0;
+
+		if (this.cells.length < 1) {
+			ctx.strokeRect(this.x, this.y, 250, 50);
+			return count;
+        }
+
 		for(var x=0; x<this.row_count; x++) {
 			for(var y=0; y<this.column_count; y++) {
 				var c = this.cells[x][y];
@@ -89,9 +99,10 @@ class Grid {
 
 class Cell {
 
-	constructor(X,Y,x_index, y_index, size) {
+	constructor(d,X,Y,x_index, y_index, size) {
 		this.padding = 1;
 		this.size = size;
+		this.blk = d;
 		this.w = x_index;
 		this.h = y_index;
 		this.x = Number(X) + Number(x_index * this.size);
