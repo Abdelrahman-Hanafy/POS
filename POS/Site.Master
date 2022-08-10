@@ -18,7 +18,7 @@
 </head>
 <body>
     <form runat="server">
-        <asp:ScriptManager runat="server">
+        <asp:ScriptManager runat="server" EnablePageMethods="true" >
             <Scripts>
                 <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
                 <%--Framework Scripts--%>
@@ -50,8 +50,8 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a runat="server" href="~/">Home</a></li>
-                        <li><a runat="server" href="~/Draw">Draw</a></li>
+                        <li><a runat="server" href="~/Reservation">Reservation</a></li>
+                        <li><a runat="server" href="~/Pricing">Pricing</a></li>
                         <li><a runat="server" href="~/Events">Events</a></li>
                         <li><a runat="server" href="~/Contact">Contact</a></li>
                     </ul>

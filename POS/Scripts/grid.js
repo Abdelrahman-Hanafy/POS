@@ -10,7 +10,7 @@ class Grid {
 		this.y = Y;
 		this.price = P;
 		this.cells = [];
-
+		
 		for(var x=0; x<this.row_count; x++) {
 			var row = [];
 			for (var y = 0; y < this.column_count; y++) {
@@ -25,14 +25,18 @@ class Grid {
 		for(var x=0; x<this.row_count; x++) {
 			for(var y=0; y<this.column_count; y++) {
 				var c = this.cells[x][y];
+				
 				if (c.choose) count++;
 
 				if ((c.x <= mouse.x) && (mouse.x < c.x+c.size) && 
-					(c.y <= mouse.y) && (mouse.y < c.y+c.size)) {	
-					c.onHover();
-					//displayCellIndex(x, y)
+					(c.y <= mouse.y) && (mouse.y < c.y + c.size)) {
+					if (!c.booked) c.onHover();
+					
 
-					if (!c.choose && mouse.isClicked) {
+					if (c.booked) {
+
+                    }
+					else if (!c.choose && mouse.isClicked) {
 						c.onClick("Green");
 					}
 					else if (c.choose && mouse.isClicked) {
@@ -48,6 +52,20 @@ class Grid {
 		}
 		return count;
 	}
+
+	toReserve() {
+		var rs = [];
+		for (var x = 0; x < this.row_count; x++) {
+			for (var y = 0; y < this.column_count; y++) {
+				var c = this.cells[x][y];
+				if (c.choose) {
+					c.book();
+					rs.push(c);
+				}
+			}
+		}
+		return rs;
+    }
 
 	export() {
 		let arr = [];
@@ -74,6 +92,8 @@ class Cell {
 	constructor(X,Y,x_index, y_index, size) {
 		this.padding = 1;
 		this.size = size;
+		this.w = x_index;
+		this.h = y_index;
 		this.x = Number(X) + Number(x_index * this.size);
 		this.y = Number(Y) + Number(y_index * this.size);
 		this.color = "Blue"; // default is white

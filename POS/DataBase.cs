@@ -76,6 +76,12 @@ namespace POS
             exec(query);
         }
 
+        public void addReservation(string n, string m, string c, string ev)
+        {
+            string query = $"exec addReservation '{n}','{m}',{c},{ev}";
+            exec(query);
+        }
+
         private void exec(string query)
         {
             SqlCommand command = new SqlCommand(query, conn);

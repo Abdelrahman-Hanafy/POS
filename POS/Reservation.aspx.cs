@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Web;
 using System.Web.Script.Serialization;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -13,11 +10,12 @@ namespace POS
 {
     public partial class _Default : Page
     {
-        DataBase db;
+        static DataBase db;
         DataTable hallTable;
         DataTable evntTable;
 
         int defaultPrice = 50;
+        static string id= "-1";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -33,21 +31,27 @@ namespace POS
             {
                 updateHalls();
             }
-            
 
-            
+
+
         }
 
         protected void Halls_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
-            string id = Halls.SelectedValue;
+
+            id = Halls.SelectedValue;
+            if(id == "-1")
+            {
+
+                return;
+            }
+
             DataRow r = evntTable.Select($"ID = {id}")[0];
             string sh = hallTable.Select($"ID = {r["HallID"]}")[0]["ID"].ToString();
 
             DataTable blks = db.fetchPrices(id);
 
-            List<int> ls = new List<int>(), ts = new List<int>(), ws = new List<int>(), hs = new List<int>(), ps = new List<int>(); 
+            List<int> ls = new List<int>(), ts = new List<int>(), ws = new List<int>(), hs = new List<int>(), ps = new List<int>();
             foreach (DataRow row in db.fetchBlocks(sh).Rows)
             {
                 try
@@ -59,7 +63,7 @@ namespace POS
                 {
                     ps.Add(defaultPrice);
                 }
-                
+
 
                 int l = int.Parse(row["Left"].ToString()),
                      t = int.Parse(row["Top"].ToString()),
@@ -77,7 +81,7 @@ namespace POS
             string serializedhs = (new JavaScriptSerializer()).Serialize(hs);
             string serializedps = (new JavaScriptSerializer()).Serialize(ps);
 
-            ScriptManager.RegisterStartupScript(Page, GetType(), "Javascript", "javascript:init(" + serializedls + ","+ serializedts + "," + serializedws + "," + serializedhs + "," + serializedps+ "); ", true);
+            ScriptManager.RegisterStartupScript(Page, GetType(), "Javascript", "javascript:init(" + serializedls + "," + serializedts + "," + serializedws + "," + serializedhs + "," + serializedps + "); ", true);
 
         }
 
@@ -99,10 +103,13 @@ namespace POS
             Halls.Items.Insert(0, new ListItem("<--- Please Select --->", "-1"));
         }
 
-        public void Show( string message)
+
+        [WebMethod]
+        public static string Reserve( string n,string m,string c)
         {
-            //Response.Write($"{message}");
-            Response.Write("<script>alert('" + message + "');</script>");
+            db.addReservation(n,m,c,id);
+            return "suc";
+
         }
     }
 }

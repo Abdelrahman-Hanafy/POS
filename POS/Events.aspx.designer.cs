@@ -11,8 +11,17 @@ namespace POS
 {
 
 
-    public partial class Events
+    public partial class About
     {
+
+        /// <summary>
+        /// Label1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label1;
 
         /// <summary>
         /// halls control.
@@ -24,39 +33,57 @@ namespace POS
         protected global::System.Web.UI.WebControls.DropDownList halls;
 
         /// <summary>
-        /// blocks control.
+        /// name control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList blocks;
+        protected global::System.Web.UI.WebControls.TextBox name;
 
         /// <summary>
-        /// ticketPrice control.
+        /// date control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox ticketPrice;
+        protected global::System.Web.UI.WebControls.Calendar date;
 
         /// <summary>
-        /// asg control.
+        /// time control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button asg;
+        protected global::System.Web.UI.WebControls.TextBox time;
 
         /// <summary>
-        /// hall control.
+        /// duration control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage hall;
+        protected global::System.Web.UI.WebControls.TextBox duration;
+
+        /// <summary>
+        /// add control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button add;
+
+        /// <summary>
+        /// selectedHall control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageMap selectedHall;
     }
 }
