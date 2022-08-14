@@ -1,7 +1,7 @@
 
 class Grid {
 
-	constructor(d,b,X,Y,row_count, column_count, cell_size,P) {
+	constructor(d,b,X,Y,row_count, column_count, cell_size,P,A) {
 
 		this.id = d;
 		this.row_count = row_count;
@@ -10,13 +10,25 @@ class Grid {
 		this.x = X;
 		this.y = Y;
 		this.price = P;
+		this.Angle = A;
 		this.cells = [];
 		this.booked = b;
 		
 		for(var x=0; x<this.row_count; x++) {
 			var row = [];
 			for (var y = 0; y < this.column_count; y++) {
-				var c = new Cell(this.id, this.x, this.y, x, y, cell_size);
+				if (this.Angle < 0) {
+					var c = new Cell(this.id, this.x, this.y, x + y / 4, y, cell_size);
+
+				}
+				else if (this.Angle > 0) {
+
+					var c = new Cell(this.id, this.x, this.y, x - y / 4, y, cell_size);
+                }
+				else {
+					var c = new Cell(this.id, this.x, this.y, x, y, cell_size);
+                }
+				
 				if (this.booked.includes(x+","+y)) c.book();
 				row.push(c)
 			}
@@ -30,8 +42,10 @@ class Grid {
 		if (this.cells.length < 1) {
 			ctx.strokeRect(this.x, this.y, 250, 50);
 			return count;
-        }
+		}
 
+		
+		
 		for(var x=0; x<this.row_count; x++) {
 			for(var y=0; y<this.column_count; y++) {
 				var c = this.cells[x][y];
@@ -60,6 +74,7 @@ class Grid {
 				
 			}
 		}
+		
 		return count;
 	}
 

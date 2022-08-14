@@ -21,14 +21,14 @@ canvas.addEventListener("click", (e) => mouse.isClicked = true, false);
 /// MOUSE INPUT SECTION
 
 
-function init(s,d,x,y,w,h,p) {
+function init(s,d,x,y,w,h,p,a) {
 
     for (i = 0; i < x.length; i++) {
 
         var ss = String(s[i]).split(";");
         ss.splice(-1)
 
-        grid = new Grid(d[i],ss,x[i], y[i], w[i], h[i], size,p[i]);
+        grid = new Grid(d[i],ss,x[i], y[i], w[i], h[i], size,p[i],a[i]);
         grids[i] = grid;
        
     }
@@ -49,7 +49,7 @@ function animate() {
     cost = 0 
     for (i = 0; i < grids.length; i++) {
 
-        ctx.strokeRect(grids[i].x, grids[i].y, grids[i].row_count * size, grids[i].column_count * size);
+        //ctx.strokeRect(grids[i].x, grids[i].y, grids[i].row_count * size, grids[i].column_count * size);
         chairs = grids[i].update(mouse, ctx);
         seats += chairs;
         cost += chairs * grids[i].price;

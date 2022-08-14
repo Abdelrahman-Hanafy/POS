@@ -52,7 +52,8 @@ namespace POS
             DataTable blks = db.fetchPrices(id);
             DataTable seats = db.fetchSeats(id);
 
-            List<int> ls = new List<int>(), ts = new List<int>(), ws = new List<int>(), hs = new List<int>(), ps = new List<int>(), ids = new List<int>();
+            List<int> ls = new List<int>(), ts = new List<int>(), ws = new List<int>(), hs = new List<int>(), ps = new List<int>(), 
+                ids = new List<int>(), aas = new List<int>();
             List<string> ss = new List<string>();
             foreach (DataRow row in db.fetchBlocks(sh).Rows)
             {
@@ -71,7 +72,8 @@ namespace POS
                      t = int.Parse(row["Top"].ToString()),
                      w = int.Parse(row["Width"].ToString()),
                      h = int.Parse(row["Height"].ToString()),
-                     d = int.Parse(row["ID"].ToString());
+                     d = int.Parse(row["ID"].ToString()),
+                     a = int.Parse(row["Angle"].ToString());
 
                 DataRow[] seatdata = seats.Select($"BlockId = {d}");
                 string data = "";
@@ -87,6 +89,7 @@ namespace POS
                 hs.Add(h);
                 ids.Add(d);
                 ss.Add(data);
+                aas.Add(a);
             }
 
             string serializedls = (new JavaScriptSerializer()).Serialize(ls);
@@ -96,8 +99,9 @@ namespace POS
             string serializedps = (new JavaScriptSerializer()).Serialize(ps);
             string serializedids = (new JavaScriptSerializer()).Serialize(ids);
             string serializediss = (new JavaScriptSerializer()).Serialize(ss);
+            string serializediaas = (new JavaScriptSerializer()).Serialize(aas);
 
-            ScriptManager.RegisterStartupScript(Page, GetType(), "Javascript", "javascript:init("+ serializediss + "," + serializedids + "," + serializedls + "," + serializedts + "," + serializedws + "," + serializedhs + "," + serializedps + "); ", true);
+            ScriptManager.RegisterStartupScript(Page, GetType(), "Javascript", "javascript:init("+ serializediss + "," + serializedids + "," + serializedls + "," + serializedts + "," + serializedws + "," + serializedhs + "," + serializedps+","+ serializediaas + "); ", true);
 
         }
 
