@@ -124,8 +124,14 @@ namespace POS
         public static string Reserve( string n,string m,string c ,string cells )
         {
             string[] cell = cells.Split(';'); // for each cell block,x,y;
-            DataTable tb = db.addReservation(n,m,c,id);
+
+            DataTable tb = db.addReservation(n, m, c, id);
+            if (tb is null)
+                return "error";
+                
             string rev = tb.Rows[0]["ID"].ToString();
+
+            
 
             foreach(string cl in cell)
             {

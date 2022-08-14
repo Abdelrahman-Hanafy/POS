@@ -106,7 +106,14 @@ namespace POS
             SqlCommand command = new SqlCommand(query, conn);
 
             SqlDataAdapter adapter = new SqlDataAdapter(command);
-            adapter.Fill(dt);
+            try
+            {
+                adapter.Fill(dt);
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
 
             return dt;
 

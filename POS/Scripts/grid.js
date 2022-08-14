@@ -76,24 +76,6 @@ class Grid {
 		}
 		return rs;
     }
-
-	export() {
-		let arr = [];
-		for(var x=0; x<this.row_count; x++) {
-			for(var y=0; y<this.column_count; y++) {
-				arr.push(this.cells[x][y].color);
-			}
-		}
-		return JSON.stringify(arr);
-	}
-
-	import(data) {
-		for(var x=0; x<this.row_count; x++) {
-			for(var y=0; y<this.column_count; y++) {
-				this.cells[x][y].color = data[x*this.row_count+y]
-			}
-		}
-	}
 }
 
 
