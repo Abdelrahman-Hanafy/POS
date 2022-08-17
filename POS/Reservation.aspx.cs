@@ -55,18 +55,26 @@ namespace POS
             List<int> ls = new List<int>(), ts = new List<int>(), ws = new List<int>(), hs = new List<int>(), ps = new List<int>(), 
                 ids = new List<int>(), aas = new List<int>(), rs = new List<int>(), bs = new List<int>();
             List<string> ss = new List<string>();
+            List<List<int>> pss = new List<List<int>>();
             foreach (DataRow row in db.fetchBlocks(sh).Rows)
             {
                 try
                 {
-                    DataRow blk = blks.Select($"BlockId = {row["ID"]}")[0];
-                    ps.Add(int.Parse(blk["Price"].ToString()));
+                    DataRow[] blk = blks.Select($"BlockId = {row["ID"]}");
+                    foreach(DataRow price in blk)
+                    {
+                        ps.Add(int.Parse(price["Price"].ToString()));
+                    }
+                    
                 }
                 catch (Exception)
                 {
                     ps.Add(defaultPrice);
                 }
 
+                
+
+               
 
                 int l = int.Parse(row["Left"].ToString()),
                      t = int.Parse(row["Top"].ToString()), 
@@ -76,6 +84,16 @@ namespace POS
                      h = int.Parse(row["Height"].ToString()),
                      d = int.Parse(row["ID"].ToString()),
                      a = int.Parse(row["Angle"].ToString());
+
+                for (int i = 0; i <h;i++)
+                {
+                    if (i >= ps.Count)
+                        ps.Add(defaultPrice);
+                }
+                List<int> tmp = new List<int>();
+                tmp.AddRange(ps);
+                pss.Add(tmp);
+                ps.Clear();
 
                 DataRow[] seatdata = seats.Select($"BlockId = {d}");
                 string data = "";
@@ -102,7 +120,7 @@ namespace POS
             string serializedbs = (new JavaScriptSerializer()).Serialize(bs);
             string serializedws = (new JavaScriptSerializer()).Serialize(ws);
             string serializedhs = (new JavaScriptSerializer()).Serialize(hs);
-            string serializedps = (new JavaScriptSerializer()).Serialize(ps);
+            string serializedps = (new JavaScriptSerializer()).Serialize(pss);
             string serializedids = (new JavaScriptSerializer()).Serialize(ids);
             string serializediss = (new JavaScriptSerializer()).Serialize(ss);
             string serializediaas = (new JavaScriptSerializer()).Serialize(aas);

@@ -47,13 +47,16 @@ function animate() {
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
     ctx.strokeStyle = "Red";
     seats = 0;
-    cost = 0 
+    cost = 0;
     for (i = 0; i < grids.length; i++) {
 
         //ctx.strokeRect(grids[i].x, grids[i].y, grids[i].row_count * size, grids[i].column_count * size);
         chairs = grids[i].update(mouse, ctx);
-        seats += chairs;
-        cost += chairs * grids[i].price;
+        for (j = 0; j < chairs.length; j++) {
+            seats += chairs[j];
+            cost += chairs[j] * grids[i].price[j];
+        }
+        
         document.getElementById('MainContent_tick').innerHTML = 'You have ' + seats + ' Tickts to book';
         document.getElementById('MainContent_price').innerHTML = 'Price: ' + cost;
         

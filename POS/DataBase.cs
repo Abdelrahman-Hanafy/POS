@@ -76,9 +76,9 @@ namespace POS
             return fillTable(query);
         }
 
-        public void addPrice(int p, string e, string b)
+        public void addPrice(int p, string e, string b,string r)
         {
-            string query = $"exec addPrice {p},{b},{e}";
+            string query = $"exec addPrice {p},{b},{e},{r}";
             exec(query);
         }
 

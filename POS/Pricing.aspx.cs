@@ -102,7 +102,7 @@ namespace POS
             //return "done";
             try
             {
-                db.addPrice(price, sev, blk);
+                db.addPrice(price, sev, blk,row);
                 return "done";
             }
             catch (Exception)

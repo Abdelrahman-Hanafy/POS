@@ -43,20 +43,21 @@ class Grid {
 	}
 
 	update(mouse, ctx) {
-		var count = 0;
+		var count = [];
 
 		if (this.Sc) {
 			ctx.strokeRect(this.x, this.y, this.r - this.x, this.b - this.y);
-			return count;
+			return 0;
 		}
 
 		
 		
-		for(var x=0; x<this.row_count; x++) {
+		for (var x = 0; x < this.row_count; x++) {
+			count[x] = 0;
 			for(var y=0; y<this.column_count; y++) {
 				var c = this.cells[x][y];
 				
-				if (c.choose) count++;
+				if (c.choose) count[x]++;
 
 				if ((c.x <= mouse.x) && (mouse.x < c.x+c.size) && 
 					(c.y <= mouse.y) && (mouse.y < c.y + c.size)) {
