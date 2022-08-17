@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Web.Script.Serialization;
 using System.Web.Services;
 using System.Web.UI;
@@ -32,8 +33,6 @@ namespace POS
                 updateHalls();
             }
 
-
-
         }
 
         protected void Halls_SelectedIndexChanged(object sender, EventArgs e)
@@ -52,7 +51,7 @@ namespace POS
             DataTable blks = db.fetchPrices(id);
             DataTable seats = db.fetchSeats(id);
 
-            List<int> ls = new List<int>(), ts = new List<int>(), ws = new List<int>(), hs = new List<int>(), ps = new List<int>(), 
+            List<int> ls = new List<int>(), ts = new List<int>(), ws = new List<int>(), hs = new List<int>(), ps = new List<int>(), rows = new List<int>(),
                 ids = new List<int>(), aas = new List<int>(), rs = new List<int>(), bs = new List<int>();
             List<string> ss = new List<string>();
             List<List<int>> pss = new List<List<int>>();
@@ -64,6 +63,8 @@ namespace POS
                     foreach(DataRow price in blk)
                     {
                         ps.Add(int.Parse(price["Price"].ToString()));
+                        rows.Add(int.Parse(price["Idx"].ToString()));
+
                     }
                     
                 }
@@ -72,9 +73,6 @@ namespace POS
                     ps.Add(defaultPrice);
                 }
 
-                
-
-               
 
                 int l = int.Parse(row["Left"].ToString()),
                      t = int.Parse(row["Top"].ToString()), 
@@ -85,15 +83,23 @@ namespace POS
                      d = int.Parse(row["ID"].ToString()),
                      a = int.Parse(row["Angle"].ToString());
 
+                List<int> tmp = new List<int>();
+                int c = 0;
                 for (int i = 0; i <h;i++)
                 {
-                    if (i >= ps.Count)
-                        ps.Add(defaultPrice);
+                    if (!rows.Contains(i))
+                        tmp.Add(defaultPrice);
+                    else
+                    {
+                        tmp.Add(ps[c]);
+                        c++;
+                    }
+
                 }
-                List<int> tmp = new List<int>();
-                tmp.AddRange(ps);
+                
                 pss.Add(tmp);
                 ps.Clear();
+                rows.Clear();
 
                 DataRow[] seatdata = seats.Select($"BlockId = {d}");
                 string data = "";

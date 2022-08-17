@@ -82,6 +82,12 @@ namespace POS
             exec(query);
         }
 
+        public void altPrice(int p, string e, string b, string r)
+        {
+            string query = $"exec altPrice {p},{b},{e},{r}";
+            exec(query);
+        }
+
         public void addEvent(string h, string n, string d, string t, string r)
         {
             string query = $"exec addEvent {h},'{n}','{d}','{t}',{r}";

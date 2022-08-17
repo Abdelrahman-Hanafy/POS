@@ -50,7 +50,6 @@ function animate() {
     cost = 0;
     for (i = 0; i < grids.length; i++) {
 
-        //ctx.strokeRect(grids[i].x, grids[i].y, grids[i].row_count * size, grids[i].column_count * size);
         chairs = grids[i].update(mouse, ctx);
         for (j = 0; j < chairs.length; j++) {
             seats += chairs[j];

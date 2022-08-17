@@ -51,13 +51,16 @@ class Grid {
 		}
 
 		
-		
-		for (var x = 0; x < this.row_count; x++) {
+		for (var x = 0; x < this.column_count; x++) {
 			count[x] = 0;
+        }
+
+		for (var x = 0; x < this.row_count; x++) {
+			
 			for(var y=0; y<this.column_count; y++) {
 				var c = this.cells[x][y];
 				
-				if (c.choose) count[x]++;
+				if (c.choose) count[y]++;
 
 				if ((c.x <= mouse.x) && (mouse.x < c.x+c.size) && 
 					(c.y <= mouse.y) && (mouse.y < c.y + c.size)) {

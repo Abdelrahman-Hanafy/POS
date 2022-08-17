@@ -111,5 +111,22 @@ namespace POS
             }
             
         }
+
+        [WebMethod]
+        public static string edt_Click(string blk, string row, int price)
+        {
+
+            //return "done";
+            try
+            {
+                db.altPrice(price, sev, blk, row);
+                return "done";
+            }
+            catch (Exception)
+            {
+                return "error";
+            }
+
+        }
     }
 }
