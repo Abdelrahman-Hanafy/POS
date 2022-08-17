@@ -5,8 +5,8 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Web;
+using System.Web.Script.Serialization;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Image = System.Drawing.Image;
@@ -16,10 +16,9 @@ namespace POS
     public partial class Events : Page
     {
 
-        DataBase db;
+        static DataBase db;
+        static string sev;
         DataTable evnts;
-        Bitmap bmp;
-        Image i;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -29,131 +28,87 @@ namespace POS
             {
                 evnts = db.fetchEvents();
                 Session["evnts"] = evnts;
-                halls.DataSource = evnts;
-                halls.DataTextField = "Name";
-                halls.DataValueField = "ID";
-                halls.DataBind();
+                events.DataSource = evnts;
+                events.DataTextField = "Name";
+                events.DataValueField = "ID";
+                events.DataBind();
 
-                halls.Items.Insert(0, new ListItem("<-- select -->", "-1"));
+                events.Items.Insert(0, new ListItem("<-- select -->", "-1"));
 
             }
             if (IsPostBack)
             {
-                i = (Image)Session["hall"];
                 evnts = (DataTable)Session["evnts"];
             }
 
         }
 
-        protected void halls_SelectedIndexChanged(object sender, EventArgs e)
+        protected void events_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string id = halls.SelectedValue;
-            DataRow h = eventHall(id);
-            string name = h["Name"].ToString();
-            if (id == "-1")
-            {
-                hall.Src = @"";
-                return;
-            }
+            string id = events.SelectedValue;
+            sev = id;
+            DataRow sh = eventHall(id);
 
-            try
-            {
-                string url = @"E:\Work\Bibliotheca\FormProjects\POS\POS\Image\" + name + ".jpg";
-                i = Image.FromFile(url);
-                Session["hall"] = i;
-                bmp = new Bitmap(i);
-                MemoryStream ms = new MemoryStream();
-                bmp.Save(ms, ImageFormat.Gif);
-                var base64Data = Convert.ToBase64String(ms.ToArray());
-                hall.Src = "data:image/gif;base64," + base64Data;
-                
-            }
-            catch (Exception)
-            {
-                Show("No Digram for this iamge");
-                return;
-            }
-
-
-            blocks.DataSource = db.fetchBlocks(h["ID"].ToString());
-            blocks.DataTextField = "ID";
-            blocks.DataValueField = "ID";
-            blocks.DataBind();
-
-            blocks.Items.Insert(0, new ListItem("<-- select -->", "-1"));
-            
-
-        }
-
-        protected void blocks_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string id = blocks.SelectedValue;
-            bmp = new Bitmap(i);
-
-            if(id == "-1")
-            {
-                ticketPrice.Enabled = false;
-                halls_SelectedIndexChanged(sender, e);
-                return;
-            }
-
-            foreach (DataRow row in db.fetchBlock(id).Rows)
+            List<int> ls = new List<int>(), ts = new List<int>(), ws = new List<int>(), hs = new List<int>(), 
+                ids = new List<int>(), aas = new List<int>(), rs = new List<int>(), bs = new List<int>();
+            foreach (DataRow row in db.fetchBlocks(sh["ID"].ToString()).Rows)
             {
                 int l = int.Parse(row["Left"].ToString()),
-                    t = int.Parse(row["Top"].ToString()),
-                    w = int.Parse(row["Right"].ToString()) - l,
-                    h = int.Parse(row["Bottom"].ToString()) - t;
+                     t = int.Parse(row["Top"].ToString()),
+                     r = int.Parse(row["Right"].ToString()),
+                     b = int.Parse(row["Bottom"].ToString()),
+                     w = int.Parse(row["Width"].ToString()),
+                     h = int.Parse(row["Height"].ToString()),
+                     d = int.Parse(row["ID"].ToString()),
+                     a = int.Parse(row["Angle"].ToString());
 
+                ls.Add(l);
+                ts.Add(t);
+                rs.Add(r);
+                bs.Add(b);
+                ws.Add(w);
+                hs.Add(h);
+                ids.Add(d);
+                aas.Add(a);
+                
 
-                using (Graphics gg = Graphics.FromImage(bmp))
-                {
-                    gg.DrawRectangle(new Pen(Color.Red), l, t, w, h);
-                }
             }
+            string serializedls = (new JavaScriptSerializer()).Serialize(ls);
+            string serializedts = (new JavaScriptSerializer()).Serialize(ts);
+            string serializedrs = (new JavaScriptSerializer()).Serialize(rs);
+            string serializedbs = (new JavaScriptSerializer()).Serialize(bs);
+            string serializedws = (new JavaScriptSerializer()).Serialize(ws);
+            string serializedhs = (new JavaScriptSerializer()).Serialize(hs);
+            string serializedids = (new JavaScriptSerializer()).Serialize(ids);
+            string serializediaas = (new JavaScriptSerializer()).Serialize(aas);
 
+            ScriptManager.RegisterStartupScript(Page, GetType(), "Javascript", "javascript:init(" + serializedids + "," + serializedls + "," + serializedts + "," + serializedws + "," + serializedhs + "," + serializediaas + "," + serializedrs + "," + serializedbs + "); ", true);
+                       
 
-            MemoryStream ms = new MemoryStream();
-            bmp.Save(ms, ImageFormat.Gif);
-            var base64Data = Convert.ToBase64String(ms.ToArray());
-            hall.Src = "data:image/gif;base64," + base64Data;
-
-            ticketPrice.Enabled = true;
         }
-
-
 
         public DataRow eventHall(string id)
         {
             DataRow r = evnts.Select($"ID = {id}")[0];
-            DataRow h =  db.fetchHall().Select($"ID = {r["HallID"].ToString()}")[0];
+            DataRow h =  db.fetchHall().Select($"ID = {r["HallID"]}")[0];
             return h;
 
         }
 
-        public void Show(string message)
+        [WebMethod]
+        public static string asg_Click(string blk,string row, int price)
         {
-            Response.Write("<script>alert('" + message + "');</script>");
-        }
-
-        protected void asg_Click(object sender, EventArgs e)
-        {
+            
+            //return "done";
             try
             {
-                int price = int.Parse(ticketPrice.Text);
-                string b = blocks.SelectedValue;
-                string h = halls.SelectedValue;
-
-                db.addPrice(price,h,b);
+                db.addPrice(price, sev, blk);
+                return "done";
             }
-            catch (FormatException )
+            catch (Exception)
             {
-                Show("Please provide int price");
+                return "error";
             }
-            catch (SqlException )
-            {
-                Show("Aleady assigned bolck");
-            }
-
             
         }
     }

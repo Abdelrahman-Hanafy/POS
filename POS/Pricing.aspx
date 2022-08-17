@@ -10,20 +10,24 @@
         <div class="col-md-4">
             <h3>Choose Event</h3>
             <updatepanel>
-                <asp:DropDownList ID="halls" runat="server" AutoPostBack="true" OnSelectedIndexChanged="halls_SelectedIndexChanged" ></asp:DropDownList><br />     
-                <asp:DropDownList ID="blocks" runat="server" AutoPostBack="true" OnSelectedIndexChanged="blocks_SelectedIndexChanged"></asp:DropDownList><br />   
+                <asp:DropDownList ID="events" runat="server" AutoPostBack="true" OnSelectedIndexChanged="events_SelectedIndexChanged" ></asp:DropDownList><br />     
             </updatepanel>
             
-            <asp:TextBox ID="ticketPrice" placeholder="Enter Ticket Price for selected Block" runat="server" Enabled="False"></asp:TextBox> <br />
-            <asp:Button ID="asg" runat="server" Text="Assign" OnClick="asg_Click" />
-        </div>
-        <div class="col-md-4">
-            <img id="hall" src="./" runat="server" />
-            
+            <asp:TextBox ID="ticketPrice" placeholder="Enter Ticket Price for selected Block" runat="server"></asp:TextBox> <br />
+            <input id="reserve" type="button" onclick="onPricing()" value="Assign" />
+
         </div>
 
+        <div class="col-md-4">
+            <canvas id="cav" width="800" height="800" runat="server"> </canvas>
+        </div>
         
     </div>
-  
+    
+        <script type="text/javascript">  
 
+            var SIZE = "<%=ConfigurationManager.AppSettings["SIZE"].ToString() %>"
+        </script> 
+    <script type="text/javascript" src="Scripts\grid.js"></script>
+    <script type="text/javascript" src="Scripts\price.js"></script>
 </asp:Content>

@@ -32,7 +32,13 @@
         </div>
         
     </div>
+    
+    <script type="text/javascript">  
+
+            var SIZE = "<%=ConfigurationManager.AppSettings["SIZE"].ToString() %>"
+    </script> 
+
     <script type="text/javascript" src="Scripts\grid.js"></script>
-    <script type="text/javascript" src="Scripts\demo.js"></script>
+    <script type="text/javascript" src="Scripts\reserve.js"></script>
 
 </asp:Content>

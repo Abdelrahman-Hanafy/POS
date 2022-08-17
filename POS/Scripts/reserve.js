@@ -1,11 +1,12 @@
 ﻿
-const size = 20;
+const size = parseInt(window.SIZE);
 var canvas = document.getElementById('MainContent_cav');
 var ctx = canvas.getContext("2d");
 var mouse = { x: undefined, y: undefined, isClicked: false };
 var grids = [];
 var cg;
 var ready = false;
+
 
 /// MOUSE INPUT SECTION
 canvas.addEventListener("mousemove", mv, false);
@@ -21,14 +22,14 @@ canvas.addEventListener("click", (e) => mouse.isClicked = true, false);
 /// MOUSE INPUT SECTION
 
 
-function init(s,d,x,y,w,h,p,a) {
+function init(s, d, x, y, w, h, p, a, r, b) {
 
     for (i = 0; i < x.length; i++) {
 
         var ss = String(s[i]).split(";");
         ss.splice(-1)
 
-        grid = new Grid(d[i],ss,x[i], y[i], w[i], h[i], size,p[i],a[i]);
+        grid = new Grid(d[i],ss,x[i], y[i], w[i], h[i], size,p[i],a[i],r[i],b[i]);
         grids[i] = grid;
        
     }

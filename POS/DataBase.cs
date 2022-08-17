@@ -70,6 +70,12 @@ namespace POS
             return fillTable(query);
         }
 
+        public DataTable fetchEvent(string hall)
+        {
+            string query = $"exec fetchEvent {hall}";
+            return fillTable(query);
+        }
+
         public void addPrice(int p, string e, string b)
         {
             string query = $"exec addPrice {p},{b},{e}";

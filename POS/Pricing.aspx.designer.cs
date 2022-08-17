@@ -15,22 +15,13 @@ namespace POS
     {
 
         /// <summary>
-        /// halls control.
+        /// events control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList halls;
-
-        /// <summary>
-        /// blocks control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList blocks;
+        protected global::System.Web.UI.WebControls.DropDownList events;
 
         /// <summary>
         /// ticketPrice control.
@@ -42,21 +33,12 @@ namespace POS
         protected global::System.Web.UI.WebControls.TextBox ticketPrice;
 
         /// <summary>
-        /// asg control.
+        /// cav control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button asg;
-
-        /// <summary>
-        /// hall control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage hall;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl cav;
     }
 }

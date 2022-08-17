@@ -46,14 +46,14 @@ namespace POS
                 return;
             }
 
-            DataRow r = evntTable.Select($"ID = {id}")[0];
-            string sh = hallTable.Select($"ID = {r["HallID"]}")[0]["ID"].ToString();
+            DataRow rw = evntTable.Select($"ID = {id}")[0];
+            string sh = hallTable.Select($"ID = {rw["HallID"]}")[0]["ID"].ToString();
 
             DataTable blks = db.fetchPrices(id);
             DataTable seats = db.fetchSeats(id);
 
             List<int> ls = new List<int>(), ts = new List<int>(), ws = new List<int>(), hs = new List<int>(), ps = new List<int>(), 
-                ids = new List<int>(), aas = new List<int>();
+                ids = new List<int>(), aas = new List<int>(), rs = new List<int>(), bs = new List<int>();
             List<string> ss = new List<string>();
             foreach (DataRow row in db.fetchBlocks(sh).Rows)
             {
@@ -69,7 +69,9 @@ namespace POS
 
 
                 int l = int.Parse(row["Left"].ToString()),
-                     t = int.Parse(row["Top"].ToString()),
+                     t = int.Parse(row["Top"].ToString()), 
+                     r = int.Parse(row["Right"].ToString()),
+                     b = int.Parse(row["Bottom"].ToString()),
                      w = int.Parse(row["Width"].ToString()),
                      h = int.Parse(row["Height"].ToString()),
                      d = int.Parse(row["ID"].ToString()),
@@ -90,10 +92,14 @@ namespace POS
                 ids.Add(d);
                 ss.Add(data);
                 aas.Add(a);
+                rs.Add(r);
+                bs.Add(b);
             }
 
             string serializedls = (new JavaScriptSerializer()).Serialize(ls);
             string serializedts = (new JavaScriptSerializer()).Serialize(ts);
+            string serializedrs = (new JavaScriptSerializer()).Serialize(rs);
+            string serializedbs = (new JavaScriptSerializer()).Serialize(bs);
             string serializedws = (new JavaScriptSerializer()).Serialize(ws);
             string serializedhs = (new JavaScriptSerializer()).Serialize(hs);
             string serializedps = (new JavaScriptSerializer()).Serialize(ps);
@@ -101,7 +107,7 @@ namespace POS
             string serializediss = (new JavaScriptSerializer()).Serialize(ss);
             string serializediaas = (new JavaScriptSerializer()).Serialize(aas);
 
-            ScriptManager.RegisterStartupScript(Page, GetType(), "Javascript", "javascript:init("+ serializediss + "," + serializedids + "," + serializedls + "," + serializedts + "," + serializedws + "," + serializedhs + "," + serializedps+","+ serializediaas + "); ", true);
+            ScriptManager.RegisterStartupScript(Page, GetType(), "Javascript", "javascript:init("+ serializediss + "," + serializedids + "," + serializedls + "," + serializedts + "," + serializedws + "," + serializedhs + "," + serializedps+","+ serializediaas+"," + serializedrs + "," + serializedbs + "); ", true);
 
         }
 

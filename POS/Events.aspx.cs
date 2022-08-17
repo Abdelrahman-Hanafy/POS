@@ -61,6 +61,17 @@ namespace POS
 
             try
             {
+                DataTable tmp = db.fetchEvent(h);
+                foreach(DataRow row in tmp.Rows)
+                {
+
+
+                    if (row["Date"].ToString() == d && TimeSpan.Parse(row["END"].ToString()) >= TimeSpan.Parse(t))
+                    {
+                        throw new Exception();
+                    }
+                    
+                }
                 db.addEvent(h, n, d, t, r);
                 Show($"You reserved {h} for {n} ON {d} at {t} for {r} hours");
 
